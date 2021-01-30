@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
+// import Get from './utils/RequestMethods';
+import axios from 'axios'
 
 function HelloWorld() {
 
-  const [count, setCount] = useState("off");
+  const [count, setCount] = useState("OFF");
 
   return (
     <div>
       <p>{count}</p>
       <button onClick={() => {
-
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText)
-            setCount(this.responseText);
-          }
-        };
-        xhttp.open("GET", "http://localhost:8080", true);
-        xhttp.send();
-
-        setCount("awating sever")
-
+        axios.get("http://localhost:8080")
+        .then(response => {
+          setCount(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        })
       }}>
         Click me
       </button>
